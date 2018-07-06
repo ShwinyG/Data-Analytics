@@ -1,0 +1,27 @@
+#Sequence from 1 to 101 by 5
+seq(from = 1, to = 101, by = 5)
+
+#Sequence from 3 to 21 of 5
+seq(3,21, length.out = 5)
+
+#Generates 15 random numbers of a normal distribution that has a mean of 75 and a standard deviation of 15 and shows summary in console
+graph<-rnorm(15, mean= 75, sd = 15)
+summary(graph)
+
+#Randomly finds 15 numbers between 1 to 100 and our rounded down to integers
+floor(runif(15, min=1, max= 100))
+
+
+p<- 1:100
+qnorm(1:10, mean=0, sd = 1)
+
+#Sets seeds to remember a random generated set of 20 values to be stored and use later
+set.seed(207)
+rnorm(n=20, mean=10, sd = 15)
+set.seed(207)
+rnorm(n=20, mean=10, sd=15)
+
+#Generates a normally distributed seet of 20 points and then is rounded to the nearest integer
+Points<-rnorm(n=20, mean=25, sd=10)
+Points
+round(Points)
