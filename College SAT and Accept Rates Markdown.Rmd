@@ -1,0 +1,86 @@
+---
+title: "College SAT and Accept Rates"
+author: "Ashwin Gowda"
+date: "7/9/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+#Inputing Data from 
+SAT_Score <- read.csv("~/Downloads/SAT_Score.csv", stringsAsFactors=FALSE)
+Accept_Rate <- read.csv("~/Downloads/Accept_Rate.csv", stringsAsFactors=FALSE)
+
+
+#Merging both df togethers of SAT Scores and Acceptance Rates with column bind
+Combined<- cbind(SAT_Score, Accept_Rate)
+View(Combined)
+
+
+#Takes out the repeated row of Year, university and number and adds SAT and Reading 75th percentile scores together and Admission divided by total apply
+Combined<-Combined[,-c(8)]
+Combined$Total_Score<-as.numeric(Combined$sat_math_75)+as.numeric(Combined$sat_cr_75)
+Combined$Total_Rate<-as.numeric(Combined$admissions_total)/as.numeric(Combined$applicants_total)
+
+#Subsets the dataframe to 3 seperate ones that have their own specific year. 
+DF2014<- subset(Combined,Combined$year==2014)
+View(DF2014)
+DF2015<- subset(Combined,Combined$year==2015)
+View(DF2015)
+DF2016<- subset(Combined,Combined$year==2016)
+View(DF2016)
+
+#Plots Data on graph to show the Total SAT Score compared to the Total Acceptance Rate for all colleges
+plot(DF2014$Total_Score, DF2014$Total_Rate)
+
+
+#Subsets Data frames to show only colleges that have a score of greater then 1350 and plots them once again by Total Rate to Total Score
+DF14<-subset(DF2014, DF2014$Total_Score>1350)
+View(DF14)
+DF15<-subset(DF2015, DF2015$Total_Score>1350)
+View(DF15)
+DF16<-subset(DF2016, DF2016$Total_Score>1350)
+View(DF16)
+plot(DF14$Total_Rate, DF14$Total_Score)
+
+#Shows the slope of the correlation line from comparing the acceptance rate to the total score
+cor(as.numeric(DF14$Total_Rate),as.numeric(DF14$Total_Score))
+cor(as.numeric(DF15$Total_Rate),as.numeric(DF15$Total_Score))
+cor(as.numeric(DF16$Total_Rate),as.numeric(DF16$Total_Score))
+#Creates matrix that turns into dataframe with the rows being the amount of university names and columns named for score
+
+k=1
+u<-as.character(unique(Combined$university_name))
+result<-matrix(0,nrow = length(u), ncol=3)
+result<-as.data.frame(result)
+colnames(result)<-c("university_name", "Average SAT", "Average Acceptance Rate")
+
+#Loops for each univeristy name to find the mean of the Total Score and rate for each year for each college to show the average for the 3 years for each college
+for(i in 1:length(u)){
+  temp<-subset(Combined,Combined$university_name==u[i])
+  result$university_name[k]<-u[i]
+  result$Average_SAT[k]<-mean(temp$Total_Score)
+  result$Average_Rate[k]<-mean(temp$Total_Rate)
+  k=k+1
+}
+#View results and removes excess rows. 
+result<-result[, -c(2:3)]
+View(result)
+  
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
