@@ -1,0 +1,48 @@
+#Load CSV file of Video Game Sales from 1980
+vgsale <- read.csv("~/Documents/R Coding/Video Game Sales/VGSale.csv", stringsAsFactors=FALSE)
+unigen<-unique(vgsale$Genre)
+print(unigen)
+uniquepub<-unique(vgsale$Publisher)
+print(uniquepub)
+vgsale <- subset(vgsale, !(vgsale$Genre == ""))
+unique(vgsale$Genre)
+unique()
+gensal<-matrix(0, 1, 12)
+View(gensal)
+colnames(gensal)<-(unigen)
+rownames(gensal)<-("Global Sales")
+gensal<-as.data.frame(gensal)
+View(gensal)
+uniglob<-vgsale$Global_Sales
+count<-1
+k<-1
+for(i in 1:length(uniglob)){
+  
+  for(j in 1:length(unigen)){
+    temp<-subset(vgsale,(vgsale$Genre==unigen[j]&vgsale$Global_Sales==uniglob[i]))
+    gensal[k, count] = length(uniglob)
+    k = k+1
+    print(k)
+    print(count)
+    
+  }
+  count = count+1
+  k=1
+}
+
+
+
+
+  
+unique(vgsale$Platform)
+
+View(microsoft)
+
+
+microsoft <- subset(vgsale, vgsale$Platform == "X360" | vgsale$Platform == "XB")
+sony <- subset(vgsale, vgsale$Platform == "PS3" | vgsale$Platform == "PS2" | vgsale$Platform == "PS4") | vgsale$Platform == "PS")
+nintendo <- subset(vgsale, vgsale$Platform == "GB" | vgsale$Platform == "DS")
+sega<- subset(vgsale, vgsale$Platform == "X360" | vgsale$Platform == "XB")
+
+
+microsoft[, "Platform"] <- "Microsoft"
