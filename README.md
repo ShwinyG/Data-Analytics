@@ -1,2 +1,3 @@
 # Data-Analytics
-hi
+Using R Coding to find trends and patterns in big data files
+
